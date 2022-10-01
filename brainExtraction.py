@@ -13,9 +13,9 @@ def reader(dir):
 
 
 def extraction(curr_dir, test_dir, slice_dir_i, bound_dir_i, i):
-    img = cv.imread(test_dir + '\\' + i)
+    img = cv.imread(os.path.join(test_dir, i))
     img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    template = cv.imread(curr_dir + '\\template.png', 0)
+    template = cv.imread(os.path.join(curr_dir, 'template.png'), 0)
     w, h = template.shape[::-1]
     res = cv.matchTemplate(img_gray, template, cv.TM_CCOEFF_NORMED)
     threshold = 0.8
@@ -36,9 +36,9 @@ def extraction(curr_dir, test_dir, slice_dir_i, bound_dir_i, i):
         crop_img = img[p[1]:p[1] + y_dist - h, p[0]:p[0] + x_dist - w]
         gray_crop = cv.cvtColor(crop_img, cv.COLOR_BGR2GRAY)
         if cv.countNonZero(gray_crop) != 0:
-            cv.imwrite(slice_dir_i + '\\slice_img_' + str(counter) + '.png', crop_img)
+            cv.imwrite(os.path.join(slice_dir_i, 'slice_img_'+str(counter)+'.png'), crop_img)
             _, thresh = cv.threshold(gray_crop, 0, 225, cv.THRESH_BINARY)
             contours, hierarchies = cv.findContours(thresh, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)[-2:]
             cv.drawContours(crop_img, contours, -1, (0, 0, 255), 1)
-            cv.imwrite(bound_dir_i + '\\bound_img_' + str(counter) + '.png', crop_img)
+            cv.imwrite(os.path.join(bound_dir_i, 'bound_img_'+str(counter)+'.png'), crop_img)
         counter += 1
