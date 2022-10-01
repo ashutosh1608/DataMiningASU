@@ -39,6 +39,6 @@ def extraction(curr_dir, test_dir, slice_dir_i, bound_dir_i, i):
             cv.imwrite(os.path.join(slice_dir_i, 'slice_img_'+str(counter)+'.png'), crop_img)
             _, thresh = cv.threshold(gray_crop, 0, 225, cv.THRESH_BINARY)
             contours, hierarchies = cv.findContours(thresh, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)[-2:]
-            cv.drawContours(crop_img, contours, -1, (0, 0, 255), 1)
+            cv.drawContours(crop_img, contours, -1, (100, 100, 0), 1)
             cv.imwrite(os.path.join(bound_dir_i, 'bound_img_'+str(counter)+'.png'), crop_img)
         counter += 1
